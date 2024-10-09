@@ -1,4 +1,8 @@
-#Sistema Gestion de empleados 
+# Sistema Gestión de Empleados
+
+Este proyecto tiene la siguiente estructura de directorios:
+
+```
 ├── empresa/
 │   ├── __init__.py            # Indica que es un paquete Python
 │   ├── modelos/               # Clases del modelo (Persona, Empleado, Usuario, Proyecto, etc.)
