@@ -1,4 +1,4 @@
-from empresa.DAO.conexion import ConexionDB
+from empresa.DAO.conexion_db import ConexionDB
 
 class DAOPersona:
     def __init__(self):
