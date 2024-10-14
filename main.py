@@ -1,19 +1,18 @@
-from empresa.modelos.empleado import Empleado
+from empresa.DTO.empleado import Empleado
 from empresa.gestion.gestion_empleado import GestionEmpleado
-from empresa.db.conexion_db import ConexionDB
-from empresa.modelos.persona import Persona
-from empresa.modelos.usuario import Usuario
+from empresa.DAO.conexion_db import ConexionDB
+from empresa.DTO.persona import Persona
+from empresa.DTO.usuario import Usuario
 
 def main():
-   
-# Crear una instancia de la clase Persona
-    persona_uno = Persona(
-    id_persona=1,
-    nombre="Juan",
-    apellido="Pérez",
-    correo="juan.perez@ejemplo.com",
-    telefono="123456789"
-)
+
+#CRUD - CREATE, READ, UPDATE, DELETE
+#CLAE - CREAR, LEER, ACTUALIZAR, ELIMINAR   
+
+# Crear una persona en la base de datos
+    persona_uno = Persona()
+    persona_uno.crear_persona_db("Juan", "Perez", "juan.perez@ejemplo.com", "123456789")
+    
 #aca se demuestra la herencia de la clase usuario
     usuario = Usuario(
         id_usuario=persona_uno._Persona__id_persona,

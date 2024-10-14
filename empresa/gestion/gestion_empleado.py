@@ -1,5 +1,5 @@
-from empresa.modelos.empleado import Empleado
-from empresa.db.conexion_db import ConexionDB
+from empresa.DTO.empleado import Empleado
+from empresa.DAO.conexion_db import ConexionDB
 
 class GestionEmpleado:
     def __init__(self, conexion_db):

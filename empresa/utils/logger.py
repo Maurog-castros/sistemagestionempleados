@@ -1,5 +1,5 @@
 # Importar las clases Persona y Usuario
-from empresa.modelos.persona import Persona
-from empresa.modelos.usuario import Usuario
+from empresa.DTO.persona import Persona
+from empresa.DTO.usuario import Usuario
 
 

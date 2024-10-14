@@ -1,12 +1,20 @@
-import sqlite3
+
+import pymysql
+
+host='localhost'
+user='root'
+password='Password01$'
+db='empresa'
 
 class ConexionDB:
-    def __init__(self, nombre_db):
-        self.nombre_db = nombre_db
-
-    def conectar(self):
-        self.conn = sqlite3.connect(self.nombre_db)
-        self.cursor = self.conn.cursor()
+    def __init__(self, host, user, password, db):
+        self.db = pymysql.connect(
+        host=host,
+        user=user,
+        password=password,
+        db=db)
+        self.cursor = self.db.cursor()
+    
 
     def ejecutar_query(self, query, parametros=()):
         self.cursor.execute(query, parametros)
@@ -14,3 +22,10 @@ class ConexionDB:
 
     def cerrar(self):
         self.conn.close()
+
+    def rollback(self):
+        self.db.rollback()
+
+
+
+   

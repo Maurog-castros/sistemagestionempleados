@@ -1,4 +1,4 @@
-from empresa.modelos.persona import Persona  # Importa la clase Persona
+from empresa.DTO.persona import Persona  # Importa la clase Persona
 
 class Empleado(Persona):
     def __init__(self, id_empleado, nombre, apellido, correo, departamento):

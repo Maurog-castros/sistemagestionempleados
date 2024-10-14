@@ -1,7 +1,7 @@
 import unittest
-from empresa.modelos.empleado import Empleado
+from empresa.DTO.empleado import Empleado
 from empresa.gestion.gestion_empleado import GestionEmpleado
-from empresa.db.conexion_db import ConexionDB
+from empresa.DAO.conexion_db import ConexionDB
 
 class TestEmpleado(unittest.TestCase):
     def setUp(self):
