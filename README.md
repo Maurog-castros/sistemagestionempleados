@@ -1,17 +1,17 @@
-# Sistema Gestión de Empleados
-> .[!NOTE]
+> [!NOTE]  
+> # Sistema Gestión de Empleados
+
+> [!TIP]
+> Construido modularmente con paradigma OOB Python.
+
+> [!IMPORTANT]  
+> No esta terminado aun, falta base de datos
+
+> [!WARNING]  
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
 > Este proyecto tiene la siguiente estructura de directorios:
-
-> .[!TIP]
-> Python Project
-
-> .[!IMPORTANT]
->  No esta terminado aun
-
-> .[!WARNING]
-> None
-
-
 
 ```
 ├── empresa/
