@@ -1,30 +1,17 @@
-# Sistema Gestión de Empleados
-> .[!NOTE]
-> Este proyecto tiene la siguiente estructura de directorios:
-
-> .[!TIP]
-> Python Project
-
-> .[!IMPORTANT]
->  No esta terminado aun
-
-> .[!WARNING]
-> None
-
 > [!NOTE]  
-> Highlights information that users should take into account, even when skimming.
+> # Sistema Gestión de Empleados
 
 > [!TIP]
-> Optional information to help a user be more successful.
+> Construido modularmente con paradigma OOB Python.
 
 > [!IMPORTANT]  
-> Crucial information necessary for users to succeed.
+> No esta terminado aun, falta base de datos
 
 > [!WARNING]  
 > Critical content demanding immediate user attention due to potential risks.
 
 > [!CAUTION]
-> Negative potential consequences of an action.
+> Este proyecto tiene la siguiente estructura de directorios:
 
 ```
 ├── empresa/
