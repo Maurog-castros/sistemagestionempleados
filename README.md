@@ -1,6 +1,17 @@
 # Sistema Gestión de Empleados
+> .[!NOTE]
+> Este proyecto tiene la siguiente estructura de directorios:
 
-Este proyecto tiene la siguiente estructura de directorios:
+> .[!TIP]
+> Python Project
+
+> .[!IMPORTANT]
+>  No esta terminado aun
+
+> .[!WARNING]
+> None
+
+
 
 ```
 ├── empresa/
