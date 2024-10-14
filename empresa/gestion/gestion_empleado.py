@@ -20,3 +20,18 @@ class GestionEmpleado:
             empleado.get_salario()
         )
         self.conexion_db.ejecutar_query(query, parametros)
+
+    def mostrar_empleados(self):
+        query = "SELECT * FROM empleados"
+        resultados = self.conexion_db.ejecutar_query(query)
+        empleados = []
+        for fila in resultados:
+            empleado = Empleado(
+                id_empleado=fila[0],
+                nombre=fila[1],
+                apellido=fila[2],
+                correo=fila[3],
+                departamento=fila[4]
+            )
+            empleados.append(empleado)
+        return empleados
