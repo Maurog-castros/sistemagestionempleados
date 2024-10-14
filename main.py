@@ -14,27 +14,12 @@ def main():
     correo="juan.perez@ejemplo.com",
     telefono="123456789"
 )
-
-
-# Crear una instancia de la clase Usuario utilizando el objeto persona
-    usuario_uno = Usuario(
-        id_usuario=persona_uno.id_persona,
-        nombre_usuario=f"{persona_uno.nombre.lower()}{persona_uno.apellido.lower()}",
+#aca se demuestra la herencia de la clase usuario
+    usuario = Usuario(
+        id_usuario=persona_uno._Persona__id_persona,
+        nombre_usuario=persona_uno._Persona__correo.split('@')[0],
         contrasena="contraseña_temporal",
         persona=persona_uno
-    )
-
-    print(f"Se ha creado un usuario para: {usuario_uno.persona.get_nombre_completo()}")
-
-
-
-    # Imprimir el nombre completo de la persona
-    print(f"Se ha creado una persona: {persona_uno.get_nombre_completo()}")
-    print(persona_uno.get_nombre_completo())
-
-
-
-
-
+)
 if __name__ == '__main__':
     main()
