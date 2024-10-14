@@ -1,4 +1,4 @@
-from empresa.entidades.empleado import Empleado
+from empresa.modelos.empleado import Empleado
 from empresa.db.conexion_db import ConexionDB
 
 class GestionEmpleado:
