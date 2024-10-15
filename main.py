@@ -6,7 +6,7 @@ def main():
 
     # Crear una persona en la base de datos
     crear_persona = DAOPersona()
-    crear_persona.crear_persona_db("Samir", "Goede", "samir.goede@ejemplo.com", "6543232")
+    crear_persona.crear_persona_db("Mauro", "Castro", "mauro.castro@ejemplo.com", "6543232")
 
     # Acá se podría demostrar la herencia de la clase usuario si existe alguna relación
 

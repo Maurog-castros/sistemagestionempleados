@@ -1,25 +1,26 @@
 
 import pymysql
 
-host='127.0.0.1'
-user='root'
-password='Password01$'
-db='empresa'
 
-
+# Clase de conexión a la base de datos
 class ConexionDB:
-    def _init_(self, host, user, password, db):
-        self.db=pymysql.connect(
-        host=host,
-        user=user,
-        password=password,
-        db=db)
-        self.cursor=self.db.cursor()
-        
-    def ejecuta_query(self,sql):
-        self.cursor.execute(sql)
+    def __init__(self, host, user, password, db):
+        self.db = pymysql.connect(
+            host=host,
+            user=user,
+            password=password,
+            db=db
+        )
+        self.cursor = self.db.cursor()
+
+    def ejecuta_query(self, sql, parametros=None):
+        # Si hay parámetros, los ejecuta de forma segura
+        if parametros:
+            self.cursor.execute(sql, parametros)
+        else:
+            self.cursor.execute(sql)
         return self.cursor
-    
+
     def desconectar(self):
         self.db.close()
 
