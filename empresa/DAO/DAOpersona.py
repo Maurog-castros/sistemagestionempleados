@@ -3,7 +3,9 @@ from empresa.DAO.conexion_db import ConexionDB
 class DAOPersona:
     def __init__(self):
         # Inicializamos la conexión
-        self.conexion = ConexionDB(host='127.0.0.1', user='root', password='Password01$', db='empresa')
+        	
+
+        self.conexion = ConexionDB(host='138.255.101.220', user='python', password='HVpvJg.Tyn)%', db='maurocastro_empresa')
 
     def crear_persona_db(self, nombre, apellido, correo, telefono):
         try:
