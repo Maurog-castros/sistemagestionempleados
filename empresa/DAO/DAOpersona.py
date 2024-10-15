@@ -43,3 +43,24 @@ class DAOPersona:
         finally:
             # Cerrar la conexión en cualquier caso
             self.conexion.desconectar()
+    def consultaparticular(self, idPersona):
+        try:
+            # Ejecutamos el query para buscar una persona específica por su ID
+            query = "SELECT * FROM Persona WHERE idPersona = %s"
+            resultado = self.conexion.ejecuta_query(query, (idPersona,))
+            
+            # Obtenemos el primer (y único) resultado
+            persona = resultado.fetchone()
+            
+            if persona:
+                return persona
+            else:
+                return "No se encontraron registros"
+
+        except Exception as e:
+            print(f"Error al consultar persona en la base de datos: {e}")
+            return "No se encontraron registros"
+
+        finally:
+            # Cerrar la conexión en cualquier caso
+            self.conexion.desconectar()
