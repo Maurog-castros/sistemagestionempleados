@@ -107,7 +107,7 @@ def mostraruno():
     datos = DAOPersona().consultaparticular(op)
 
     # Verificamos si el cliente existe, evitando posibles errores
-    if datos:
+    if datos: 
         # Imprimir los datos del cliente
         print("\n===================================")
         print("     MUESTRA DE DATOS DEL CLIENTE   ")
