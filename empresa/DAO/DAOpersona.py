@@ -5,12 +5,12 @@ class DAOPersona:
         # Inicializamos la conexión
         	
 
-        self.conexion = ConexionDB(host='138.255.101.220', user='python', password='HVpvJg.Tyn)%', db='maurocastro_empresa')
+        self.conexion = ConexionDB(host='138.255.101.220', user='maurocastro_python', password='HVpvJg.Tyn)%', db='maurocastro_empresa')
 
     def crear_persona_db(self, nombre, apellido, correo, telefono):
         try:
             # Ejecutar el query con parámetros seguros
-            query = "INSERT INTO persona (nombre, apellido, correo, telefono) VALUES (%s, %s, %s, %s)"
+            query = "INSERT INTO Persona (nombre, apellido, correo, telefono) VALUES (%s, %s, %s, %s)"
             self.conexion.ejecuta_query(query, (nombre, apellido, correo, telefono))
             
             # Confirmar la transacción
