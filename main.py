@@ -1,8 +1,3 @@
-from empresa.DTO.empleado import Empleado
-from empresa.gestion.gestion_empleado import GestionEmpleado
-from empresa.DAO.conexion_db import ConexionDB
-from empresa.DTO.DTOpersona import Persona
-from empresa.DTO.usuario import Usuario
 from empresa.DAO.DAOpersona import DAOPersona
 
 def main():
