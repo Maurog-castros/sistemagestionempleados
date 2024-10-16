@@ -31,7 +31,7 @@ def main():
             print("Opción MODIFICAR seleccionada.")
             # Lógica de modificación aquí
         elif opcion == 'D':
-            print("Opción ELIMINAR seleccionada.")
+            eliminar_registro_persona()
             # Lógica de eliminación aquí
         elif opcion == 'E':
             print("Saliendo del programa...")
@@ -144,6 +144,25 @@ def crear_registro_persona():
         main()
     except Exception as e:
         print(f"Error al crear el registro: {e}")
+
+def eliminar_registro_persona():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("=== Eliminar Registro de Persona ===")
+    idPersona = input("Ingrese el ID de la persona a eliminar: ")
+    
+    try:
+        dao_persona = DAOPersona()
+        resultado = dao_persona.eliminarporID(idPersona)
+        if resultado:
+            print("Registro eliminado exitosamente.")
+        else:
+            print("No se encontró el registro o no se pudo eliminar.")
+    except Exception as e:
+        print(f"Error al eliminar el registro: {e}")
+    
+    input("Presiona Enter para continuar...")
+    main()
+
 
 if __name__ == '__main__':
     main()

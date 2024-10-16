@@ -27,7 +27,29 @@ class DAOPersona:
         finally:
             # Cerrar la conexión en cualquier caso
             self.conexion.desconectar()
+    def eliminarporID(self, idPersona):
+        try:
+            # Ejecutamos el query para eliminar una persona específica por su ID
+            query = "DELETE FROM Persona WHERE idPersona = %s"
+            resultado = self.conexion.ejecuta_query(query, (idPersona,))
+            
+            # Confirmamos la transacción
+            self.conexion.commit()
+            
+            # Verificamos si se eliminó algún registro
+            if resultado.rowcount > 0:
+                return True
+            else:
+                return False
 
+        except Exception as e:
+            print(f"Error al eliminar persona de la base de datos: {e}")
+            self.conexion.rollback()
+            return False
+
+        finally:
+            # Cerrar la conexión en cualquier caso
+            self.conexion.desconectar()
     def leer_todos(self):
         try:
             # Ejecutamos el query para leer todas las personas
