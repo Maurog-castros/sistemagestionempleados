@@ -28,7 +28,7 @@ def main():
             elif subopcion == '4':
                 continue  # Vuelve al menú principal
         elif opcion == 'U':
-            print("Opción MODIFICAR seleccionada.")
+            modificar_registro_persona()
             # Lógica de modificación aquí
         elif opcion == 'D':
             eliminar_registro_persona()
@@ -144,6 +144,72 @@ def crear_registro_persona():
         main()
     except Exception as e:
         print(f"Error al crear el registro: {e}")
+
+def modificar_registro_persona():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("=== Modificar Registro de Persona ===")
+    
+    try:
+        # Solicitar ID de la persona que se desea modificar
+        idPersona = input("Ingrese el ID de la persona que desea modificar: ")
+        
+        # Consultar los datos de la persona actual antes de modificar
+        datos = DAOPersona().consultaparticular(idPersona)
+
+        if not datos:
+            print(f"No se encontraron datos para la persona con ID: {idPersona}")
+            return
+
+        # Mostrar los datos actuales
+        print(f"\nDatos actuales de la persona con ID {idPersona}:")
+        print(f"1. Nombre: {datos[1]}")
+        print(f"2. Apellido: {datos[2]}")
+        print(f"3. Correo: {datos[3]}")
+        print(f"4. Teléfono: {datos[4]}")
+
+        # Crear lista para los nuevos valores
+        nuevos_datos = []
+
+        # Modificar Nombre
+        opcion = input(f"Desea modificar el nombre actual ({datos[1]})? [S/N]: ").upper()
+        if opcion == 'S':
+            nuevo_nombre = input("Ingrese el nuevo nombre: ")
+            nuevos_datos.append(nuevo_nombre)
+        else:
+            nuevos_datos.append(datos[1])
+
+        # Modificar Apellido
+        opcion = input(f"Desea modificar el apellido actual ({datos[2]})? [S/N]: ").upper()
+        if opcion == 'S':
+            nuevo_apellido = input("Ingrese el nuevo apellido: ")
+            nuevos_datos.append(nuevo_apellido)
+        else:
+            nuevos_datos.append(datos[2])
+
+        # Modificar Correo
+        opcion = input(f"Desea modificar el correo actual ({datos[3]})? [S/N]: ").upper()
+        if opcion == 'S':
+            nuevo_correo = input("Ingrese el nuevo correo: ")
+            nuevos_datos.append(nuevo_correo)
+        else:
+            nuevos_datos.append(datos[3])
+
+        # Modificar Teléfono
+        opcion = input(f"Desea modificar el teléfono actual ({datos[4]})? [S/N]: ").upper()
+        if opcion == 'S':
+            nuevo_telefono = input("Ingrese el nuevo teléfono: ")
+            nuevos_datos.append(nuevo_telefono)
+        else:
+            nuevos_datos.append(datos[4])
+
+        # Llamar al DAO para actualizar los datos
+        DAOPersona().modificar_persona_db(idPersona, nuevos_datos[0], nuevos_datos[1], nuevos_datos[2], nuevos_datos[3])
+        print("Registro actualizado exitosamente.")
+    
+    except Exception as e:
+        print(f"Error al modificar el registro: {e}")
+
+    input("Presiona Enter para continuar...")
 
 def eliminar_registro_persona():
     os.system('cls' if os.name == 'nt' else 'clear')

@@ -65,6 +65,30 @@ class DAOPersona:
         finally:
             # Cerrar la conexión en cualquier caso
             self.conexion.desconectar()
+    def modificar_persona_db(self, idPersona, nombre, apellido, correo, telefono):
+        try:
+            # Ejecutar el query para actualizar los campos
+            query = """
+            UPDATE Persona 
+            SET nombre = %s, apellido = %s, correo = %s, telefono = %s
+            WHERE idPersona = %s
+            """
+            # Ejecutar el query con los parámetros proporcionados
+            self.conexion.ejecuta_query(query, (nombre, apellido, correo, telefono, idPersona))
+            
+            # Confirmar la transacción
+            self.conexion.commit()
+            print(f"Persona con ID {idPersona} modificada exitosamente.")
+
+        except Exception as e:
+        # En caso de error, imprimir y realizar rollback si es necesario
+          print(f"Error al modificar persona en la base de datos: {e}")
+          self.conexion.rollback()
+
+        finally:
+        # Cerrar la conexión en cualquier caso
+            self.conexion.desconectar()
+
     def consultaparticular(self, idPersona):
         try:
             # Ejecutamos el query para buscar una persona específica por su ID
