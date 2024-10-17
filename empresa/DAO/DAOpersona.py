@@ -68,7 +68,7 @@ class DAOPersona:
     def modificar_persona_db(self, idPersona, nombre, apellido, correo, telefono):
         try:
             # Ejecutar el query para actualizar los campos
-            query = """
+            query = """ 
             UPDATE Persona 
             SET nombre = %s, apellido = %s, correo = %s, telefono = %s
             WHERE idPersona = %s
