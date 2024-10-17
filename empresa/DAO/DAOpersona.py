@@ -1,5 +1,5 @@
-from empresa.DAO.conexion_db import ConexionDB
-
+from empresa.conexion_db import ConexionDB
+from empresa import config
 class DAOPersona:
     def __init__(self):
         # Inicializamos la conexión

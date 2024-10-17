@@ -3,12 +3,7 @@ import os
 
 def main():
     # CRUD - CREATE, READ, UPDATE, DELETE
-    # CLAE - CREAR, LEER, ACTUALIZAR, ELIMINAR
-
-    # Crear una persona en la base de datos
-    # crear_persona = DAOPersona()
-    # crear_persona.crear_persona_db("Mauro", "Castro", "mauro.castro@ejemplo.com", "6543232")
-
+    
     while True:
         menupincipal()  # Llamada a la función corregida
         opcion = input("Selecciona una opción: ").upper()
@@ -54,7 +49,7 @@ def menupincipal():
     5.- (E) SALIR
     ================================
     """)
-
+ 
 def menumostrar():
     os.system('cls' if os.name == 'nt' else 'clear')
     print("""
