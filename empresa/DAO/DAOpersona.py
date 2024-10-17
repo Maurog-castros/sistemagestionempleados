@@ -1,8 +1,9 @@
 from empresa.conexion_db import ConexionDB
+from empresa.DTO.DTOpersona import DTOPersona
+
 
 class DAOPersona:
     def __init__(self):
-        # Inicializamos la conexión
         self.conexion = ConexionDB(
             host='138.255.101.220', 
             user='maurocastro_python', 
@@ -10,103 +11,66 @@ class DAOPersona:
             db='maurocastro_empresa'
         )
 
-    def crear_persona_db(self, nombre, apellido, correo, telefono):
+    def crear_persona_db(self, persona: DTOPersona):
         try:
-            # Ejecutar el query con parámetros seguros
             query = "INSERT INTO Persona (nombre, apellido, correo, telefono) VALUES (%s, %s, %s, %s)"
-            self.conexion.ejecuta_query(query, (nombre, apellido, correo, telefono))
-            
-            # Confirmar la transacción
+            self.conexion.ejecuta_query(
+                query, 
+                (persona.get_nombre(), persona.get_apellido(), persona.get_correo(), persona.get_telefono())
+            )
             self.conexion.commit()
-
+            print(f"Persona {persona.get_nombre()} {persona.get_apellido()} creada exitosamente.")
         except Exception as e:
-            # En caso de error, imprimir y realizar rollback si es necesario
             print(f"Error al insertar persona en la base de datos: {e}")
-            self.conexion.rollback()  # Asegúrate de que ConexionDB soporte rollback
-
-        finally:
-            # Cerrar la conexión en cualquier caso
-            self.conexion.desconectar()
-    def eliminarporID(self, idPersona):
-        try:
-            # Ejecutamos el query para eliminar una persona específica por su ID
-            query = "DELETE FROM Persona WHERE idPersona = %s"
-            resultado = self.conexion.ejecuta_query(query, (idPersona,))
-            
-            # Confirmamos la transacción
-            self.conexion.commit()
-            
-            # Verificamos si se eliminó algún registro
-            if resultado.rowcount > 0:
-                return True
-            else:
-                return False
-
-        except Exception as e:
-            print(f"Error al eliminar persona de la base de datos: {e}")
             self.conexion.rollback()
-            return False
 
-        finally:
-            # Cerrar la conexión en cualquier caso
-            self.conexion.desconectar()
-    def leer_todos(self):
+    def consultar_todos(self):
         try:
-            # Ejecutamos el query para leer todas las personas
-            query = "SELECT idPersona, nombre, apellido, correo, telefono FROM Persona"
-            personas = self.conexion.ejecuta_query(query)
+            query = "SELECT IdPersona, nombre, apellido, correo, telefono FROM Persona"
+            resultado = self.conexion.ejecuta_query(query)
+            
+            # Crear una lista de objetos DTOPersona con los resultados
+            personas = [DTOPersona(id_persona=row[0], nombre=row[1], apellido=row[2], correo=row[3], telefono=row[4]) for row in resultado]
             
             return personas
-
         except Exception as e:
-            print(f"Error al leer personas de la base de datos: {e}")
+            print(f"Error al consultar personas en la base de datos: {e}")
             return []
 
-        finally:
-            # Cerrar la conexión en cualquier caso
-            self.conexion.desconectar()
-    def modificar_persona_db(self, idPersona, nombre, apellido, correo, telefono):
+    def consultar_por_id(self, IdPersona):
         try:
-            # Ejecutar el query para actualizar los campos
-            query = """ 
-            UPDATE Persona 
-            SET nombre = %s, apellido = %s, correo = %s, telefono = %s
-            WHERE idPersona = %s
-            """
-            # Ejecutar el query con los parámetros proporcionados
-            self.conexion.ejecuta_query(query, (nombre, apellido, correo, telefono, idPersona))
+            query = "SELECT idPersona, nombre, apellido, correo, telefono FROM Persona WHERE idPersona = %s"
+            self.conexion.ejecuta_query(query, (IdPersona))
+            resultado = self.conexion.cursor.fetchone()
             
-            # Confirmar la transacción
-            self.conexion.commit()
-            print(f"Persona con ID {idPersona} modificada exitosamente.")
-
-        except Exception as e:
-        # En caso de error, imprimir y realizar rollback si es necesario
-          print(f"Error al modificar persona en la base de datos: {e}")
-          self.conexion.rollback()
-
-        finally:
-        # Cerrar la conexión en cualquier caso
-            self.conexion.desconectar()
-
-    def consultaparticular(self, idPersona):
-        try:
-            # Ejecutamos el query para buscar una persona específica por su ID
-            query = "SELECT * FROM Persona WHERE idPersona = %s"
-            resultado = self.conexion.ejecuta_query(query, (idPersona,))
-            
-            # Obtenemos el primer (y único) resultado
-            persona = resultado.fetchone()
-            
-            if persona:
-                return persona
+            if resultado:
+                # Ajustar el nombre del parámetro al que espera el constructor de DTOPersona
+                return DTOPersona(id_persona=resultado[0], nombre=resultado[1], apellido=resultado[2], correo=resultado[3], telefono=resultado[4])
             else:
-                return "No se encontraron registros"
-
+                return None
         except Exception as e:
-            print(f"Error al consultar persona en la base de datos: {e}")
-            return "No se encontraron registros"
+            print(f"Error al consultar persona por ID: {e}")
+            return None
 
-        finally:
-            # Cerrar la conexión en cualquier caso
-            self.conexion.desconectar()
+    def modificar_persona_db(self, persona: DTOPersona):
+        try:
+            query = "UPDATE Persona SET nombre = %s, apellido = %s, correo = %s, telefono = %s WHERE idPersona = %s"
+            self.conexion.ejecuta_query(
+                query, 
+                (persona.get_nombre(), persona.get_apellido(), persona.get_correo(), persona.get_telefono(), persona.get_IdPersona())
+            )
+            self.conexion.commit()
+            print(f"Persona {persona.get_IdPersona()} actualizada correctamente.")
+        except Exception as e:
+            print(f"Error al actualizar persona en la base de datos: {e}")
+            self.conexion.rollback()
+
+    def eliminar_por_id(self, IdPersona):
+        try:
+            query = "DELETE FROM Persona WHERE IdPersona = %s"
+            self.conexion.ejecuta_query(query, (IdPersona,))
+            self.conexion.commit()
+            print(f"Persona con ID {IdPersona} eliminada correctamente.")
+        except Exception as e:
+            print(f"Error al eliminar persona en la base de datos: {e}")
+            self.conexion.rollback()

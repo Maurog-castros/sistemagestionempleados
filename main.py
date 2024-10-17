@@ -1,37 +1,31 @@
 from empresa.DAO.DAOpersona import DAOPersona
+from empresa.DTO.DTOpersona import DTOPersona
 import os
 
 def main():
     # CRUD - CREATE, READ, UPDATE, DELETE
-    
     while True:
         menupincipal()  # Llamada a la función corregida
         opcion = input("Selecciona una opción: ").upper()
         
         if opcion == 'C':
             crear_registro_persona()
-            # Lógica de ingreso de datos aquí
         elif opcion == 'R':
             menumostrar()
             subopcion = input("Selecciona una opción de MOSTRAR: ").upper()
             if subopcion == '1':
                 mostrar_todo()
             elif subopcion == '2':
-                mostraruno()
-            elif subopcion == '3':
-                print("Mostrando registros parciales...")
+                mostrar_uno()
             elif subopcion == '4':
                 continue  # Vuelve al menú principal
         elif opcion == 'U':
             modificar_registro_persona()
-            # Lógica de modificación aquí
         elif opcion == 'D':
             eliminar_registro_persona()
-            # Lógica de eliminación aquí
         elif opcion == 'E':
             print("Saliendo del programa...")
             os.system('cls' if os.name == 'nt' else 'clear')
-            
             break
         else:
             print("Opción no válida. Inténtalo de nuevo.")
@@ -61,67 +55,61 @@ def menumostrar():
     4.- VOLVER
     ================================
     """)
+
+import os
+
 def mostrar_todo():
+    # Limpiar la pantalla según el sistema operativo
     os.system('cls' if os.name == 'nt' else 'clear')
-    print("""
-    ========================================================
-            M O S T R A R  T O D O  
-    ========================================================
-    """)
+    print("=== Mostrar Todos los Registros ===\n")
 
     try:
-        # Asumimos que 'DAOPersona' tiene un método 'leer_todos' que retorna los registros
-        datos = DAOPersona().leer_todos()
-        if not datos:
+        dao_persona = DAOPersona()  # Crear instancia de DAO
+        personas = dao_persona.consultar_todos()  # Consultar todos los registros
+
+        if not personas:
             print("No hay registros disponibles.")
         else:
-            print(f"{'ID':<5} {'Nombre':<20} {'Apellido':<20} {'Correo':<30} {'Teléfono':<15}")
-            print("=" * 90)
-            for dato in datos:
-                print(f"{dato[0]:<5} {dato[1]:<20} {dato[2]:<20} {dato[3]:<30} {dato[4]:<15}")
-            print("=" * 90)
-
-        input("\nPRESIONE ENTER PARA CONTINUAR")
+            # Encabezado
+            print(f"{'ID':<5} | {'Nombre':<15} | {'Apellido':<15} | {'Correo':<25} | {'Teléfono':<12}")
+            print("-" * 75)
+            
+            # Mostrar cada persona con formato alineado
+            for persona in personas:
+                print(f"{persona.get_id_persona():<5} | {persona.get_nombre():<15} | {persona.get_apellido():<15} | {persona.get_correo():<25} | {persona.get_telefono():<12}")
+            
+            print("-" * 75)  # Separador final
+            
+        input("\nPresione Enter para continuar...")
         
     except Exception as e:
         print(f"Error al mostrar los registros: {e}")
+        input("\nPresione Enter para continuar...")  # Pausar para que el usuario vea el error
 
-def mostraruno():
-    # Limpiamos la consola
-    os.system('cls')  # O 'clear' en caso de sistemas Unix
+def mostrar_uno():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("=== Mostrar Registro por ID ===")
+    
+    try:
+        id_persona = input("Ingrese el ID de la persona: ")
+        dao_persona = DAOPersona()
+        persona = dao_persona.consultar_por_id(id_persona)
 
-    # Título de la sección
-    print("===================================")
-    print("    MUESTRA DE DATOS PARTICULAR     ")
-    print("===================================")
+        if persona:
+            print("\n+-----------------------------+")
+            print(f"| ID       : {persona.get_id_persona()}")
+            print(f"| Nombre   : {persona.get_nombre()}")
+            print(f"| Apellido : {persona.get_apellido()}")
+            print(f"| Correo   : {persona.get_correo()}")
+            print(f"| Teléfono : {persona.get_telefono() if persona.get_telefono() else 'No disponible'}")
+            print("+-----------------------------+\n")
+        else:
+            print("\nNo se encontró ninguna persona con ese ID.\n")
 
-    # Solicitar el ID del cliente
-    op = int(input("\nIngrese valor del ID del Cliente que desea Mostrar los Datos: "))
+        input("Presione Enter para continuar...")
+    except Exception as e:
+        print(f"Error al mostrar el registro: {e}")
 
-    # Consultar los datos del cliente con el ID proporcionado
-    datos = DAOPersona().consultaparticular(op)
-
-    # Verificamos si el cliente existe, evitando posibles errores
-    if datos: 
-        # Imprimir los datos del cliente
-        print("\n===================================")
-        print("     MUESTRA DE DATOS DEL CLIENTE   ")
-        print("===================================")
-        print("ID             : {}".format(datos[0]))
-        print("NOMBRE         : {}".format(datos[1]))
-        print("APELLIDO       : {}".format(datos[2]))
-        print("CORREO         : {}".format(datos[3]))
-        print("TIPO PERSONA   : {}".format(datos[4]))
-        print("DEPARTAMENTO   : {}".format(datos[5]))
-        print("TELEFONO       : {}".format(datos[6]))
-        print("===================================")
-
-    else:
-        # Si no se encontraron datos para el ID ingresado
-        print("\nNo se encontraron datos para el cliente con ID: {}".format(op))
-
-    # Pausa antes de continuar
-    input("\n\nPRESIONE ENTER PARA CONTINUAR")
 
 def crear_registro_persona():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -131,12 +119,13 @@ def crear_registro_persona():
     correo = input("Ingrese el correo electrónico: ")
     telefono = input("Ingrese el número de teléfono: ")
     
+    # Crear instancia de DTOPersona con los datos ingresados
+    persona = DTOPersona(nombre=nombre, apellido=apellido, correo=correo, telefono=telefono)
+    
     try:
-        crear_persona = DAOPersona()
-        crear_persona.crear_persona_db(nombre, apellido, correo, telefono)
+        dao_persona = DAOPersona()
+        dao_persona.crear_persona_db(persona)
         print("Registro creado exitosamente.")
-        input("Presiona Enter para continuar...")
-        main()
     except Exception as e:
         print(f"Error al crear el registro: {e}")
 
@@ -145,10 +134,7 @@ def modificar_registro_persona():
     print("=== Modificar Registro de Persona ===")
     
     try:
-        # Solicitar ID de la persona que se desea modificar
         idPersona = input("Ingrese el ID de la persona que desea modificar: ")
-        
-        # Consultar los datos de la persona actual antes de modificar
         datos = DAOPersona().consultaparticular(idPersona)
 
         if not datos:
@@ -157,48 +143,19 @@ def modificar_registro_persona():
 
         # Mostrar los datos actuales
         print(f"\nDatos actuales de la persona con ID {idPersona}:")
-        print(f"1. Nombre: {datos[1]}")
-        print(f"2. Apellido: {datos[2]}")
-        print(f"3. Correo: {datos[3]}")
-        print(f"4. Teléfono: {datos[4]}")
+        print(f"1. Nombre: {datos.nombre}")
+        print(f"2. Apellido: {datos.apellido}")
+        print(f"3. Correo: {datos.correo}")
+        print(f"4. Teléfono: {datos.telefono}")
 
-        # Crear lista para los nuevos valores
-        nuevos_datos = []
+        # Modificar y actualizar la información
+        nombre = input(f"Ingrese el nuevo nombre (actual: {datos.nombre}): ") or datos.nombre
+        apellido = input(f"Ingrese el nuevo apellido (actual: {datos.apellido}): ") or datos.apellido
+        correo = input(f"Ingrese el nuevo correo (actual: {datos.correo}): ") or datos.correo
+        telefono = input(f"Ingrese el nuevo teléfono (actual: {datos.telefono}): ") or datos.telefono
 
-        # Modificar Nombre
-        opcion = input(f"Desea modificar el nombre actual ({datos[1]})? [S/N]: ").upper()
-        if opcion == 'S':
-            nuevo_nombre = input("Ingrese el nuevo nombre: ")
-            nuevos_datos.append(nuevo_nombre)
-        else:
-            nuevos_datos.append(datos[1])
-
-        # Modificar Apellido
-        opcion = input(f"Desea modificar el apellido actual ({datos[2]})? [S/N]: ").upper()
-        if opcion == 'S':
-            nuevo_apellido = input("Ingrese el nuevo apellido: ")
-            nuevos_datos.append(nuevo_apellido)
-        else:
-            nuevos_datos.append(datos[2])
-
-        # Modificar Correo
-        opcion = input(f"Desea modificar el correo actual ({datos[3]})? [S/N]: ").upper()
-        if opcion == 'S':
-            nuevo_correo = input("Ingrese el nuevo correo: ")
-            nuevos_datos.append(nuevo_correo)
-        else:
-            nuevos_datos.append(datos[3])
-
-        # Modificar Teléfono
-        opcion = input(f"Desea modificar el teléfono actual ({datos[4]})? [S/N]: ").upper()
-        if opcion == 'S':
-            nuevo_telefono = input("Ingrese el nuevo teléfono: ")
-            nuevos_datos.append(nuevo_telefono)
-        else:
-            nuevos_datos.append(datos[4])
-
-        # Llamar al DAO para actualizar los datos
-        DAOPersona().modificar_persona_db(idPersona, nuevos_datos[0], nuevos_datos[1], nuevos_datos[2], nuevos_datos[3])
+        persona_modificada = DTOPersona(idPersona, nombre, apellido, correo, telefono)
+        DAOPersona().modificar_persona_db(persona_modificada)
         print("Registro actualizado exitosamente.")
     
     except Exception as e:
@@ -212,8 +169,7 @@ def eliminar_registro_persona():
     idPersona = input("Ingrese el ID de la persona a eliminar: ")
     
     try:
-        dao_persona = DAOPersona()
-        resultado = dao_persona.eliminarporID(idPersona)
+        resultado = DAOPersona().eliminarporID(idPersona)
         if resultado:
             print("Registro eliminado exitosamente.")
         else:
@@ -222,10 +178,6 @@ def eliminar_registro_persona():
         print(f"Error al eliminar el registro: {e}")
     
     input("Presiona Enter para continuar...")
-    main()
-
 
 if __name__ == '__main__':
     main()
-   
-

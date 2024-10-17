@@ -1,30 +1,43 @@
-from empresa.conexion_db import ConexionDB
-
 class DTOPersona:
-    def __init__(self, id_persona, nombre, apellido, correo, telefono):
-            self.__id_persona = id_persona
-            self.__nombre = nombre
-            self.__apellido = apellido
-            self.__correo = correo
-            self.__telefono = telefono
+    def __init__(self, id_persona=None, nombre=None, apellido=None, correo=None, telefono=None):
+        self.__id_persona = id_persona
+        self.__nombre = nombre
+        self.__apellido = apellido
+        self.__correo = correo
+        self.__telefono = telefono
 
-    def get_nombre_completo(self):
-        return f"{self.__nombre} {self.__apellido}"
-    
-    def leer_todos(self):
-        try:
-            # Ejecutamos el query para leer todas las personas
-            query = "SELECT idPersona, nombre, apellido, correo, telefono FROM Persona"
-            personas = self.conexion.ejecuta_query(query)
-            
-            return personas
+    # Métodos Getter
+    def get_id_persona(self):
+        return self.__id_persona
 
-        except Exception as e:
-            print(f"Error al leer personas de la base de datos: {e}")
-            return []
+    def get_nombre(self):
+        return self.__nombre
 
-        finally:
-            # Cerrar la conexión en cualquier caso
-            self.conexion.desconectar()
+    def get_apellido(self):
+        return self.__apellido
 
-# Otras funcionalidades
+    def get_correo(self):
+        return self.__correo
+
+    def get_telefono(self):
+        return self.__telefono
+
+    # Métodos Setter
+    def set_id_persona(self, id_persona):
+        self.__id_persona = id_persona
+
+    def set_nombre(self, nombre):
+        self.__nombre = nombre
+
+    def set_apellido(self, apellido):
+        self.__apellido = apellido
+
+    def set_correo(self, correo):
+        self.__correo = correo
+
+    def set_telefono(self, telefono):
+        self.__telefono = telefono
+
+    # Método para representar el objeto como una cadena (opcional)
+    def __str__(self):
+        return f"Persona(ID: {self.__id_persona}, Nombre: {self.__nombre}, Apellido: {self.__apellido}, Correo: {self.__correo}, Teléfono: {self.__telefono})"
