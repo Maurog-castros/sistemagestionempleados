@@ -5,15 +5,15 @@ from empresa.DTO.DTOpersona import DTOPersona
 class DAOPersona:
     def __init__(self):
         self.conexion = ConexionDB(
-            host='138.255.101.220', 
-            user='maurocastro_python', 
-            password='HVpvJg.Tyn)%', 
-            db='maurocastro_empresa'
+            host='localhost', 
+            user='empresauser', 
+            password='carrera1903', 
+            db='empresa'
         )
 
     def crear_persona_db(self, persona: DTOPersona):
         try:
-            query = "INSERT INTO Persona (nombre, apellido, correo, telefono) VALUES (%s, %s, %s, %s)"
+            query = "INSERT INTO persona (nombre, apellido, correo, telefono) VALUES (%s, %s, %s, %s)"
             self.conexion.ejecuta_query(
                 query, 
                 (persona.get_nombre(), persona.get_apellido(), persona.get_correo(), persona.get_telefono())
@@ -26,7 +26,7 @@ class DAOPersona:
 
     def consultar_todos(self):
         try:
-            query = "SELECT IdPersona, nombre, apellido, correo, telefono FROM Persona"
+            query = "SELECT id_persona, nombre, apellido, correo, telefono FROM persona"
             resultado = self.conexion.ejecuta_query(query)
             
             # Crear una lista de objetos DTOPersona con los resultados
@@ -37,10 +37,10 @@ class DAOPersona:
             print(f"Error al consultar personas en la base de datos: {e}")
             return []
 
-    def consultar_por_id(self, IdPersona):
+    def consultar_por_id(self, id_persona):
         try:
-            query = "SELECT idPersona, nombre, apellido, correo, telefono FROM Persona WHERE idPersona = %s"
-            self.conexion.ejecuta_query(query, (IdPersona))
+            query = "SELECT id_persona, nombre, apellido, correo, telefono FROM Persona WHERE id_persona = %s"
+            self.conexion.ejecuta_query(query, (id_persona))
             resultado = self.conexion.cursor.fetchone()
             
             if resultado:
@@ -54,23 +54,23 @@ class DAOPersona:
 
     def modificar_persona_db(self, persona: DTOPersona):
         try:
-            query = "UPDATE Persona SET nombre = %s, apellido = %s, correo = %s, telefono = %s WHERE idPersona = %s"
+            query = "UPDATE persona SET nombre = %s, apellido = %s, correo = %s, telefono = %s WHERE id_persona = %s"
             self.conexion.ejecuta_query(
                 query, 
-                (persona.get_nombre(), persona.get_apellido(), persona.get_correo(), persona.get_telefono(), persona.get_IdPersona())
+                (persona.get_nombre(), persona.get_apellido(), persona.get_correo(), persona.get_telefono(), persona.get_id_persona())
             )
             self.conexion.commit()
-            print(f"Persona {persona.get_IdPersona()} actualizada correctamente.")
+            print(f"Persona {persona.get_id_persona()} actualizada correctamente.")
         except Exception as e:
             print(f"Error al actualizar persona en la base de datos: {e}")
             self.conexion.rollback()
 
-    def eliminar_por_id(self, IdPersona):
+    def eliminar_por_id(self, id_persona):
         try:
-            query = "DELETE FROM Persona WHERE IdPersona = %s"
-            self.conexion.ejecuta_query(query, (IdPersona,))
+            query = "DELETE FROM persona WHERE id_persona = %s"
+            self.conexion.ejecuta_query(query, (id_persona))
             self.conexion.commit()
-            print(f"Persona con ID {IdPersona} eliminada correctamente.")
+            print(f"Persona con ID {id_persona} eliminada correctamente.")
         except Exception as e:
             print(f"Error al eliminar persona en la base de datos: {e}")
             self.conexion.rollback()

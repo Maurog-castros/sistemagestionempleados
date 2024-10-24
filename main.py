@@ -126,6 +126,7 @@ def crear_registro_persona():
         dao_persona = DAOPersona()
         dao_persona.crear_persona_db(persona)
         print("Registro creado exitosamente.")
+        input("Presione Enter para continuar...")        
     except Exception as e:
         print(f"Error al crear el registro: {e}")
 
@@ -135,7 +136,7 @@ def modificar_registro_persona():
     
     try:
         idPersona = input("Ingrese el ID de la persona que desea modificar: ")
-        datos = DAOPersona().consultaparticular(idPersona)
+        datos = DAOPersona().consultar_por_id(idPersona)
 
         if not datos:
             print(f"No se encontraron datos para la persona con ID: {idPersona}")
@@ -143,16 +144,16 @@ def modificar_registro_persona():
 
         # Mostrar los datos actuales
         print(f"\nDatos actuales de la persona con ID {idPersona}:")
-        print(f"1. Nombre: {datos.nombre}")
-        print(f"2. Apellido: {datos.apellido}")
-        print(f"3. Correo: {datos.correo}")
-        print(f"4. Teléfono: {datos.telefono}")
+        print(f"1. Nombre: {datos.get_nombre()}")
+        print(f"2. Apellido: {datos.get_apellido()}")
+        print(f"3. Correo: {datos.get_correo()}")
+        print(f"4. Teléfono: {datos.get_telefono()}")
 
         # Modificar y actualizar la información
-        nombre = input(f"Ingrese el nuevo nombre (actual: {datos.nombre}): ") or datos.nombre
-        apellido = input(f"Ingrese el nuevo apellido (actual: {datos.apellido}): ") or datos.apellido
-        correo = input(f"Ingrese el nuevo correo (actual: {datos.correo}): ") or datos.correo
-        telefono = input(f"Ingrese el nuevo teléfono (actual: {datos.telefono}): ") or datos.telefono
+        nombre = input(f"Ingrese el nuevo nombre (actual: {datos.get_nombre()}): ") or datos.get_nombre()
+        apellido = input(f"Ingrese el nuevo apellido (actual: {datos.get_apellido()}): ") or datos.get_apellido()
+        correo = input(f"Ingrese el nuevo correo (actual: {datos.get_correo()}): ") or datos.get_correo()
+        telefono = input(f"Ingrese el nuevo teléfono (actual: {datos.get_telefono()}): ") or datos.get_telefono()
 
         persona_modificada = DTOPersona(idPersona, nombre, apellido, correo, telefono)
         DAOPersona().modificar_persona_db(persona_modificada)
@@ -169,11 +170,11 @@ def eliminar_registro_persona():
     idPersona = input("Ingrese el ID de la persona a eliminar: ")
     
     try:
-        resultado = DAOPersona().eliminarporID(idPersona)
+        resultado = DAOPersona().eliminar_por_id(idPersona)
         if resultado:
-            print("Registro eliminado exitosamente.")
-        else:
             print("No se encontró el registro o no se pudo eliminar.")
+        else:
+            print("Registro eliminado exitosamente.")
     except Exception as e:
         print(f"Error al eliminar el registro: {e}")
     
